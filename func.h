@@ -2,6 +2,7 @@
 #include "vars.h"
 #include "arrays.h"
 
+GameState gamestate = GameState::Title;
 
 void tiebreaker(){
   
@@ -12,14 +13,14 @@ void wincheck(){
     tiebreaker();
   }
   if (questioncounter < 15){
-    gamestate = 1;
+    gamestate = GameState::Countdown;
   }
   if ((questioncounter == 15 && P1score > P2score) || (questioncounter == 15 && P1score < P2score)){
-    gamestate == 11;
+    gamestate = GameState::WinScreen;
   }
 }
 
-void GS2(){
+void questionBothPlayers(){
   if (timerbar > 0) {timerbar-=1;}
   arduboy.setCursor(0, 0);
   if (questioncounter ==1) {
@@ -29,10 +30,10 @@ void GS2(){
     arduboy.print(question2);
   }
   if (arduboy.pressed(LEFT_BUTTON)){
-    gamestate++;
+    gamestate = GameState::PlayerOneReady;
   }
   if (arduboy.pressed(B_BUTTON)){
-    gamestate = 7;
+    gamestate = GameState::PlayerTwoReady;
   }
   
   arduboy.drawRect(0, 60, timerbar, 4);
@@ -41,11 +42,11 @@ void GS2(){
     P2score -=1;
     questioncounter+=1;
     arduboy.clear();
-    gamestate = 1;
+    gamestate = GameState::Countdown;
   }
 }
 
-void GS4(){
+void questionPlayerOne(){
   arduboy.setCursor(0,0);
   if (questioncounter == 1){
     arduboy.print(question1);
@@ -63,19 +64,19 @@ void GS4(){
     Sprites::drawOverwrite(0, 32, RIGHT, 0);
     if (arduboy.justPressed(UP_BUTTON)){
       P1correct = true;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(LEFT_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(DOWN_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(RIGHT_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
   }
   
@@ -95,29 +96,29 @@ void GS4(){
     Sprites::drawOverwrite(0, 32, RIGHT, 0);
     if (arduboy.justPressed(UP_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(LEFT_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(DOWN_BUTTON)){
       P1correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
     if (arduboy.justPressed(RIGHT_BUTTON)){
       P1correct = true;
-      gamestate = 6;
+      gamestate = GameState::PlayerOneOutcome;
     }
   }
 
   timerbar--;
   if (timerbar == 0){
-    gamestate = 5;
+    gamestate = GameState::PlayerOneTimeOut;
   }
 }
 
-void GS8(){
+void questionPlayerTwo(){
   arduboy.setCursor(0,0);
   if (questioncounter == 1){
     arduboy.print(question1);
@@ -135,19 +136,19 @@ void GS8(){
     Sprites::drawOverwrite(0, 32, RIGHT, 0);
     if (arduboy.justPressed(UP_BUTTON)){
       P2correct = true;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(LEFT_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(DOWN_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(RIGHT_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
   }
   
@@ -167,28 +168,28 @@ void GS8(){
     Sprites::drawOverwrite(0, 32, RIGHT, 0);
     if (arduboy.justPressed(UP_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(LEFT_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(DOWN_BUTTON)){
       P2correct = false;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
     if (arduboy.justPressed(RIGHT_BUTTON)){
       P2correct = true;
-      gamestate = 6;
+      gamestate = GameState::PlayerTwoOutcome;
     }
   }
 
   timerbar--;
   if (timerbar == 0){
-    gamestate = 9;
+    gamestate = GameState::PlayerTwoTimeOut;
   }
 }
-void GS10(){
+void playerTwoOutcome(){
   if (P2correct == true){
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
     arduboy.print("Correct! +1 pt");
@@ -205,7 +206,8 @@ void GS10(){
     wincheck();
   }
 }
-void GS6(){
+
+void playerOneOutcome(){
   if (P1correct == true){
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
     arduboy.print("Correct! +1 pt");
@@ -232,44 +234,44 @@ void reset(){
 void gameloop(){
   switch (gamestate) {
 
-      case 0:
+      case GameState::Title:
       //title screen
       arduboy.setCursor(0,0);
       arduboy.print("Trivia");
       if (arduboy.pressed(LEFT_BUTTON) && arduboy.pressed(B_BUTTON)) {
-        gamestate++;
+        gamestate = GameState::Countdown;
       }
       break;
 
-      case 1:
+      case GameState::Countdown:
       //countdown
       timerbar = 10000;
       delay(3000);
-      gamestate++;
+      gamestate = GameState::QuestionBoth;
       break;
 
 
-      case 2:
+      case GameState::QuestionBoth:
       //question screen both players
-      GS2();
+      questionBothPlayers();
       break;
 
-      case 3:
+      case GameState::PlayerOneReady:
       //player 1
       //informative screen, just print & delay
       arduboy.setCursor(0, 0);
       arduboy.print("Player ONE get ready!");
       timerbar = 15000;
       delay(3000);
-      gamestate = 4;
+      gamestate = GameState::PlayerOneQA;
       break;
 
-      case 4:
+      case GameState::PlayerOneQA:
       //P1 Question/answer screen
-      GS4();
+      questionPlayerOne();
       break;
 
-      case 5:
+      case GameState::PlayerOneTimeOut:
       //player 1 time out screen, -1 pts
       arduboy.setCursor(0,0);
       arduboy.print("Out of time! -1 pt");
@@ -279,27 +281,27 @@ void gameloop(){
       wincheck();
       break;
 
-      case 6:
+      case GameState::PlayerOneOutcome:
       //p1 outcome screen
-      GS6();
+      playerOneOutcome();
       break;
 
-      case 7:
+      case GameState::PlayerTwoReady:
       //player 2
       //informative screen, just print & delay
       arduboy.setCursor(0, 0);
       arduboy.print("Player TWO get ready!");
       timerbar = 15000;
       delay(3000);
-      gamestate = 8;
+      gamestate = GameState::PlayerTwoQA;
       break;
 
-      case 8:
+      case GameState::PlayerTwoQA:
       //player 2 question/answer screen
-      GS8();
+      questionPlayerTwo();
       break;
 
-      case 9:
+      case GameState::PlayerTwoTimeOut:
       //player 2 timeout screen -1pt
       arduboy.setCursor(0,0);
       arduboy.print("Out of time! -1 pt");
@@ -309,13 +311,12 @@ void gameloop(){
       wincheck();
       break;
 
-      case 10:
+      case GameState::PlayerTwoOutcome:
       //player 2 outcome screen
-      GS10();
+      playerTwoOutcome();
       break;
       
-      case 11: 
-      
+      case GameState::WinScreen: 
       //win screen
       break;
   }
