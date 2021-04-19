@@ -4,6 +4,8 @@
 
 GameState gamestate = GameState::Title;
 
+QA stringbuff = QA::Question1;
+
 void tiebreaker(){
   
 }
@@ -24,10 +26,14 @@ void questionBothPlayers(){
   if (timerbar > 0) {timerbar-=1;}
   arduboy.setCursor(0, 0);
   if (questioncounter ==1) {
-   arduboy.print(question1); 
+    stringbuff = QA::Question1;
+   strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+   arduboy.print(buffer); 
   }
   else if (questioncounter == 2) {
-    arduboy.print(question2);
+    stringbuff=QA::Question2;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    arduboy.print(buffer);
   }
   if (arduboy.pressed(LEFT_BUTTON)){
     gamestate = GameState::PlayerOneReady;
@@ -49,15 +55,33 @@ void questionBothPlayers(){
 void questionPlayerOne(){
   arduboy.setCursor(0,0);
   if (questioncounter == 1){
-    arduboy.print(question1);
+    
+    stringbuff=QA::Question1;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q1UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 8);
-    arduboy.print(q1ansUP);
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q1LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 16);
-    arduboy.print(q1ansLEFT);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q1DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 24);
-    arduboy.print(q1ansDOWN);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q1RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 32);
-    arduboy.print(q1ansRIGHT);
+    arduboy.print(buffer);
+    
     Sprites::drawOverwrite(0, 8, UP, 0);
     Sprites::drawOverwrite(0, 16, LEFT, 0);
     Sprites::drawOverwrite(0, 24, DOWN, 0);
@@ -81,15 +105,36 @@ void questionPlayerOne(){
   }
   
   if (questioncounter == 2){
-    arduboy.print(question2);
+
+    
+    stringbuff=QA::Question2;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q2UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 8);
-    arduboy.print(q2ansUP);
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q2LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 16);
-    arduboy.print(q2ansLEFT);
+    arduboy.print(buffer);
+    
+    
+    stringbuff=QA::q2DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 24);
-    arduboy.print(q2ansDOWN);
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q2RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 32);
-    arduboy.print(q2ansRIGHT);
+    arduboy.print(buffer);
+    
     Sprites::drawOverwrite(0, 8, UP, 0);
     Sprites::drawOverwrite(0, 16, LEFT, 0);
     Sprites::drawOverwrite(0, 24, DOWN, 0);
@@ -121,15 +166,33 @@ void questionPlayerOne(){
 void questionPlayerTwo(){
   arduboy.setCursor(0,0);
   if (questioncounter == 1){
-    arduboy.print(question1);
+    
+    stringbuff=QA::Question1;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q1UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 8);
-    arduboy.print(q1ansUP);
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q1LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 16);
-    arduboy.print(q1ansLEFT);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q1DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 24);
-    arduboy.print(q1ansDOWN);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q1RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 32);
-    arduboy.print(q1ansRIGHT);
+    arduboy.print(buffer);
+    
     Sprites::drawOverwrite(0, 8, UP, 0);
     Sprites::drawOverwrite(0, 16, LEFT, 0);
     Sprites::drawOverwrite(0, 24, DOWN, 0);
@@ -151,17 +214,34 @@ void questionPlayerTwo(){
       gamestate = GameState::PlayerTwoOutcome;
     }
   }
-  
-  if (questioncounter == 2){
-    arduboy.print(question2);
+  else if (questioncounter == 2){
+    
+    stringbuff=QA::Question2;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q2UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 8);
-    arduboy.print(q2ansUP);
+    arduboy.print(buffer);
+
+    
+    stringbuff=QA::q2LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 16);
-    arduboy.print(q2ansLEFT);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q2DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 24);
-    arduboy.print(q2ansDOWN);
+    arduboy.print(buffer);
+
+    stringbuff=QA::q2RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     arduboy.setCursor(10, 32);
-    arduboy.print(q2ansRIGHT);
+    arduboy.print(buffer);
+    
     Sprites::drawOverwrite(0, 8, UP, 0);
     Sprites::drawOverwrite(0, 16, LEFT, 0);
     Sprites::drawOverwrite(0, 24, DOWN, 0);
@@ -192,7 +272,7 @@ void questionPlayerTwo(){
 void playerTwoOutcome(){
   if (P2correct == true){
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
-    arduboy.print("Correct! +1 pt");
+    arduboy.print(F("Correct! +1 pt"));
     P2score +=1;
     questioncounter+=1;
     delay(3000);
@@ -200,7 +280,7 @@ void playerTwoOutcome(){
   }
   else {
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
-    arduboy.print("Wrong! Better luck next time.");
+    arduboy.print(F("Wrong! Better luck next time."));
     questioncounter+=1;
     delay(3000);
     wincheck();
@@ -210,7 +290,7 @@ void playerTwoOutcome(){
 void playerOneOutcome(){
   if (P1correct == true){
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
-    arduboy.print("Correct! +1 pt");
+    arduboy.print(F("Correct! +1 pt"));
     P1score +=1;
     questioncounter+=1;
     delay(3000);
@@ -218,7 +298,7 @@ void playerOneOutcome(){
   }
   else {
     arduboy.setCursor(WIDTH/3, HEIGHT/2);
-    arduboy.print("Wrong! Better luck next time.");
+    arduboy.print(F("Wrong! Better luck next time."));
     questioncounter+=1;
     delay(3000);
     wincheck();
@@ -237,7 +317,7 @@ void gameloop(){
       case GameState::Title:
       //title screen
       arduboy.setCursor(0,0);
-      arduboy.print("Trivia");
+      arduboy.print(F("Trivia"));
       if (arduboy.pressed(LEFT_BUTTON) && arduboy.pressed(B_BUTTON)) {
         gamestate = GameState::Countdown;
       }
@@ -260,7 +340,7 @@ void gameloop(){
       //player 1
       //informative screen, just print & delay
       arduboy.setCursor(0, 0);
-      arduboy.print("Player ONE get ready!");
+      arduboy.print(F("Player ONE get ready!"));
       timerbar = 15000;
       delay(3000);
       gamestate = GameState::PlayerOneQA;
@@ -274,7 +354,7 @@ void gameloop(){
       case GameState::PlayerOneTimeOut:
       //player 1 time out screen, -1 pts
       arduboy.setCursor(0,0);
-      arduboy.print("Out of time! -1 pt");
+      arduboy.print(F("Out of time! -1 pt"));
       P1score -=1;
       delay(3000);
       questioncounter+=1;
@@ -290,7 +370,7 @@ void gameloop(){
       //player 2
       //informative screen, just print & delay
       arduboy.setCursor(0, 0);
-      arduboy.print("Player TWO get ready!");
+      arduboy.print(F("Player TWO get ready!"));
       timerbar = 15000;
       delay(3000);
       gamestate = GameState::PlayerTwoQA;
@@ -304,7 +384,7 @@ void gameloop(){
       case GameState::PlayerTwoTimeOut:
       //player 2 timeout screen -1pt
       arduboy.setCursor(0,0);
-      arduboy.print("Out of time! -1 pt");
+      arduboy.print(F("Out of time! -1 pt"));
       P2score -=1;
       delay(3000);
       questioncounter+=1;
