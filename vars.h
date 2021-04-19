@@ -2,7 +2,22 @@
 
 bool P1correct = false;
 bool P2correct = false;
-int gamestate = 0;
+
+enum class GameState : uint8_t {
+  Title, //0
+  Countdown,
+  QuestionBoth,
+  PlayerOneReady, 
+  PlayerOneQA, //4, Question/Answer
+  PlayerOneTimeOut,
+  PlayerOneOutcome,
+  PlayerTwoReady,
+  PlayerTwoQA, //8
+  PlayerTwoTimeOut,
+  PlayerTwoOutcome,
+  WinScreen,
+}; 
+
 int P1score=0;
 int P2score=0;
 int timerbar = 10000;
