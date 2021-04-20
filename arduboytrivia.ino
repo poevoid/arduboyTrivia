@@ -1,5 +1,6 @@
-///Arduboy 2 player trivia
 
+///Arduboy 2 player trivia
+//poevoid
   /*
    * Alright, so here's the run-down: Player 1 holds their finger over the LEFT button,
    * Player 2 over the B button. A timer will count down from 3 and show a question, a
@@ -21,9 +22,12 @@
     */
     
 #include <Arduboy2.h>
+#include <Tinyfont.h>
 Arduboy2 arduboy;
+Tinyfont tinyfont = Tinyfont(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
 #include "func.h"
 #include "vars.h"
+
 void setup() {
   arduboy.begin();
   arduboy.clear();
