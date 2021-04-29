@@ -6,16 +6,14 @@ GameState gamestate = GameState::Title;
 
 QA stringbuff = QA::Question1;
 
-void tiebreaker() {
-
-}
 
 void wincheck() {
   if (questioncounter == 15 && P1score == P2score) {
-    tiebreaker();
+    tiebreaker = true;
   }
   if (questioncounter < 15) {
     timerbar = 100;
+    tiebreaker = false;
     gamestate = GameState::Countdown;
   }
   if ((questioncounter == 15 && P1score > P2score) || (questioncounter == 15 && P1score < P2score)) {
@@ -33,11 +31,86 @@ void questionBothPlayers() {
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.print(buffer);
   }
-  else if (questioncounter == 2) {
+  if (questioncounter == 2) {
     stringbuff = QA::Question2;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.print(buffer);
   }
+  if (questioncounter == 3) {
+    stringbuff = QA::Question3;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 4) {
+    stringbuff = QA::Question4;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 5) {
+    stringbuff = QA::Question5;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 6) {
+    stringbuff = QA::Question6;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 7) {
+    stringbuff = QA::Question7;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 8) {
+    stringbuff = QA::Question8;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 9) {
+    stringbuff = QA::Question9;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 10) {
+    stringbuff = QA::Question10;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 11) {
+    stringbuff = QA::Question11;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 12) {
+    stringbuff = QA::Question12;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 13) {
+    stringbuff = QA::Question13;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 14) {
+    stringbuff = QA::Question14;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 15) {
+    stringbuff = QA::Question15;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  if (questioncounter == 16 && tiebreaker == true) {
+    stringbuff = QA::Question16;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+  }
+  else if (questioncounter == 16 && tiebreaker == false) {
+    wincheck();
+  }
+
+
   if (arduboy.pressed(LEFT_BUTTON)) {
     timerbar = 200;
     gamestate = GameState::PlayerOneReady;
@@ -46,22 +119,28 @@ void questionBothPlayers() {
     timerbar = 200;
     gamestate = GameState::PlayerTwoReady;
   }
+  arduboy.setCursor(0, 60);
+  arduboy.print(timerbar / 10);
 
-  arduboy.drawRect(0, 60, timerbar, 4);
   if (timerbar == 0) {
     P1score -= 1;
     P2score -= 1;
     questioncounter += 1;
     arduboy.clear();
+    arduboy.print(F("Out of time!"));
+    arduboy.display();
+    delay(3000);
+    timerbar = 100;
     gamestate = GameState::Countdown;
   }
 }
 
 void questionPlayerOne() {
   tinyfont.setCursor(116, 0);
-  tinyfont.print(timerbar/10);
+  tinyfont.print(timerbar / 10);
   tinyfont.setCursor(0, 0);
-  
+
+
   if (questioncounter == 1) {
     stringbuff = QA::Question1;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
@@ -163,41 +242,33 @@ void questionPlayerOne() {
       gamestate = GameState::PlayerOneOutcome;
     }
   }
+  if (questioncounter == 3) {
 
-  timerbar--;
-  if (timerbar == 0) {
-    timerbar = 300;
-    gamestate = GameState::PlayerOneTimeOut;
-  }
-}
 
-void questionPlayerTwo() {
-  tinyfont.setCursor(0, 0);
-  arduboy.drawRect(0, 60, timerbar, 4);
-  if (questioncounter == 1) {
-
-    stringbuff = QA::Question1;
+    stringbuff = QA::Question3;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.print(buffer);
 
 
-    stringbuff = QA::q1UP;
+    stringbuff = QA::q3UP;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.setCursor(10, 8);
     tinyfont.print(buffer);
 
 
-    stringbuff = QA::q1LEFT;
+    stringbuff = QA::q3LEFT;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.setCursor(10, 16);
     tinyfont.print(buffer);
 
-    stringbuff = QA::q1DOWN;
+
+    stringbuff = QA::q3DOWN;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.setCursor(10, 24);
     tinyfont.print(buffer);
 
-    stringbuff = QA::q1RIGHT;
+
+    stringbuff = QA::q3RIGHT;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
     tinyfont.setCursor(10, 32);
     tinyfont.print(buffer);
@@ -206,6 +277,722 @@ void questionPlayerTwo() {
     Sprites::drawOverwrite(0, 16, LEFT, 0);
     Sprites::drawOverwrite(0, 24, DOWN, 0);
     Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 4) {
+
+
+    stringbuff = QA::Question4;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 5) {
+
+
+    stringbuff = QA::Question5;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 6) {
+
+
+    stringbuff = QA::Question6;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 7) {
+
+
+    stringbuff = QA::Question7;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 8) {
+
+
+    stringbuff = QA::Question8;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 9) {
+
+
+    stringbuff = QA::Question9;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 10) {
+
+
+    stringbuff = QA::Question10;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 11) {
+    stringbuff = QA::Question11;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q11UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q11LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q11DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q11RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 12) {
+    stringbuff = QA::Question12;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q12UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q12LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q12DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q12RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 13) {
+    stringbuff = QA::Question13;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q13UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q13LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q13DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q13RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 14) {
+    stringbuff = QA::Question14;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q14UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q14LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q14DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q14RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 15) {
+    stringbuff = QA::Question15;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q15UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q15LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q15DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q15RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 16) {
+    stringbuff = QA::Question16;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q16UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q16LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q16DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q16RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P1correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P1correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+
+  if (timerbar > 0) {
+    timerbar--;
+  }
+  if (timerbar == 0) {
+    timerbar = 100;
+    gamestate = GameState::PlayerOneTimeOut;
+  }
+}
+
+void questionPlayerTwo() {
+  tinyfont.setCursor(116, 0);
+  tinyfont.print(timerbar / 10);
+  tinyfont.setCursor(0, 0);
+
+
+  if (questioncounter == 1) {
+    stringbuff = QA::Question1;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q1UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q1LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q1DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 40);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q1RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 55);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 16, UP, 0);
+    Sprites::drawOverwrite(0, 32, LEFT, 0);
+    Sprites::drawOverwrite(0, 40, DOWN, 0);
+    Sprites::drawOverwrite(0, 55, RIGHT, 0);
     if (arduboy.pressed(UP_BUTTON)) {
       P2correct = true;
       gamestate = GameState::PlayerTwoOutcome;
@@ -223,7 +1010,7 @@ void questionPlayerTwo() {
       gamestate = GameState::PlayerTwoOutcome;
     }
   }
-  else if (questioncounter == 2) {
+  if (questioncounter == 2) {
 
     stringbuff = QA::Question2;
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
@@ -272,10 +1059,704 @@ void questionPlayerTwo() {
       gamestate = GameState::PlayerTwoOutcome;
     }
   }
+  if (questioncounter == 3) {
 
+
+    stringbuff = QA::Question3;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q3UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q3LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q3DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q3RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerOneOutcome;
+    }
+  }
+  if (questioncounter == 4) {
+
+    stringbuff = QA::Question4;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q4LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q4DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q4RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 5) {
+
+    stringbuff = QA::Question5;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q5LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q5DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q5RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 6) {
+
+    stringbuff = QA::Question6;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q6LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q6DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q6RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 7) {
+
+    stringbuff = QA::Question7;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q7LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q7DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q7RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 8) {
+
+    stringbuff = QA::Question8;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q8LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q8DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q8RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 9) {
+
+    stringbuff = QA::Question9;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q9LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q9DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q9RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 10) {
+
+    stringbuff = QA::Question10;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q10LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q10DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q10RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 11) {
+
+    stringbuff = QA::Question11;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q11UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q11LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q11DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q11RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 12) {
+
+    stringbuff = QA::Question12;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q12UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q12LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q12DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q12RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 13) {
+
+    stringbuff = QA::Question13;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q13UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q13LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q13DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q13RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 14) {
+
+    stringbuff = QA::Question14;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q14UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q14LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q14DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q14RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 15) {
+
+    stringbuff = QA::Question15;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q15UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q15LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q15DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q15RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+  if (questioncounter == 16) {
+
+    stringbuff = QA::Question16;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q16UP;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 8);
+    tinyfont.print(buffer);
+
+
+    stringbuff = QA::q16LEFT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 16);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q16DOWN;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 24);
+    tinyfont.print(buffer);
+
+    stringbuff = QA::q16RIGHT;
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[stringbuff])));
+    tinyfont.setCursor(10, 32);
+    tinyfont.print(buffer);
+
+    Sprites::drawOverwrite(0, 8, UP, 0);
+    Sprites::drawOverwrite(0, 16, LEFT, 0);
+    Sprites::drawOverwrite(0, 24, DOWN, 0);
+    Sprites::drawOverwrite(0, 32, RIGHT, 0);
+    if (arduboy.pressed(UP_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(LEFT_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(DOWN_BUTTON)) {
+      P2correct = false;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+    if (arduboy.pressed(RIGHT_BUTTON)) {
+      P2correct = true;
+      gamestate = GameState::PlayerTwoOutcome;
+    }
+  }
+
+  //qa p2
+
+  if (timerbar > 0) {
+    timerbar--;
+  }
   timerbar--;
   if (timerbar == 0) {
-    timerbar = 300;
+    timerbar = 100;
     gamestate = GameState::PlayerTwoTimeOut;
   }
 }
@@ -289,13 +1770,16 @@ void playerTwoOutcome() {
     delay(3000);
     wincheck();
   }
-  else {
+  if (P2correct == false && questioncounter < 16) {
     tinyfont.setCursor(WIDTH / 3, HEIGHT / 2);
     tinyfont.print(F("Wrong! \nBetter luck next time."));
     questioncounter += 1;
     arduboy.display();
     delay(3000);
     wincheck();
+  }
+  else {
+    gamestate = GameState::PlayerOneReady;
   }
 }
 
@@ -309,13 +1793,16 @@ void playerOneOutcome() {
     delay(5000);
     wincheck();
   }
-  else {
+  if (P1correct == false && questioncounter < 16) {
     tinyfont.setCursor(WIDTH / 3, HEIGHT / 2);
     tinyfont.print(F("Wrong! \n Better luck next time."));
     questioncounter += 1;
     arduboy.display();
     delay(5000);
     wincheck();
+  }
+  else {
+    gamestate = GameState::PlayerTwoReady;
   }
 }
 
@@ -331,7 +1818,7 @@ void gameloop() {
     case GameState::Title:
       //title screen
       tinyfont.setCursor(0, 0);
-      tinyfont.print("Trivia");
+      arduboy.print(F("FrankenMacCharDeeDen:\n The Trivia Game"));
       arduboy.pollButtons();
       if (arduboy.pressed(LEFT_BUTTON) && arduboy.pressed(B_BUTTON)) {
         timerbar = 100;
@@ -341,16 +1828,18 @@ void gameloop() {
 
     case GameState::Countdown:
       //countdown
-      timerbar--;
-      tinyfont.setCursor(0,0);
+      if (timerbar > 0) {
+        timerbar--;
+      }
+      arduboy.setCursor(WIDTH / 2 - 4, HEIGHT / 2 - 4);
       if (timerbar > 66) {
-        tinyfont.print(F("3"));
+        arduboy.print(F("3"));
       }
       if (timerbar > 33 && timerbar < 66) {
-        tinyfont.print(F("2"));
+        arduboy.print(F("2"));
       }
       if (timerbar > 0 && timerbar < 33) {
-        tinyfont.print(F("1"));
+        arduboy.print(F("1"));
       }
       if (timerbar == 0) {
         timerbar = 300;
@@ -386,8 +1875,14 @@ void gameloop() {
       //player 1 time out screen, -1 pts
       tinyfont.setCursor(0, 0);
       tinyfont.print(F("Out of time! -1 pt"));
+      arduboy.setCursor(60, 5);
+      arduboy.print(timerbar); //dev, timer seems to start at zero here even though it 
+      //should have been set to 100 before switching to this state. hmm. 
+      
       P1score -= 1;
-      timerbar--;
+      if (timerbar > 0) {
+        timerbar--;
+      }
       if (timerbar = 0) {
         questioncounter += 1;
         wincheck();
@@ -405,7 +1900,9 @@ void gameloop() {
       //informative screen, just print & delay
       tinyfont.setCursor(0, 0);
       tinyfont.print(F("Player TWO get ready!"));
-      timerbar--;
+      if (timerbar > 0) {
+        timerbar--;
+      }
       if (timerbar == 0) {
         timerbar = 1000;
         gamestate = GameState::PlayerTwoQA;
@@ -421,8 +1918,11 @@ void gameloop() {
       //player 2 timeout screen -1pt
       tinyfont.setCursor(0, 0);
       tinyfont.print(F("Out of time! -1 pt"));
+      //same issue as player one's, can't figure out why. 
       P2score -= 1;
-      timerbar--;
+      if (timerbar > 0) {
+        timerbar--;
+      }
       if (timerbar == 0) {
         questioncounter += 1;
         wincheck();
