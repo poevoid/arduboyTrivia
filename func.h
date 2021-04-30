@@ -1957,9 +1957,17 @@ void gameloop() {
       //win screen
       if (P1score > P2score) {
         arduboy.print(F("Player One \nwins the game!"));
+        arduboy.setCursor(0, 55);
+        arduboy.print(F(P1score));
+        arduboy.setCursor(WIDTH-10, 55);
+        arduboy.print(F(P2score));
       }
       else {
         arduboy.print(F("Player Two \nwins the game!"));
+        arduboy.setCursor(0, 55);
+        arduboy.print(F(P1score));
+        arduboy.setCursor(WIDTH-10, 55);
+        arduboy.print(F(P2score));
       }
       break;
   }
