@@ -1,6 +1,9 @@
 #pragma once
 
 
+uint8_t currentframe = 0;
+uint8_t firstframe = 0;
+
 bool P1correct = false;
 bool P2correct = false;
 bool tiebreaker = false;
